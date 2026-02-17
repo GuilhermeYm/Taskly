@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Task {
+  id         String   @id @default(uuid())
+  title      String   @unique
+  content    String
+  tags       String[] @default([])
+  project    String   @default("Não pertence a nenhum projeto")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

@@ -1,7 +1,7 @@
 "use client";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTasks } from "@/hooks/useTask";
 import { Calendar } from "lucide-react";
-import { useState } from "react";
 
 type Filter = "completed" | "notCompleted";
 interface Task {
@@ -27,6 +27,7 @@ const dataTask = {
 };
 
 export default function ShowingTask() {
+  const { data } = useTasks();
   const handleCheckedChange = (taskId: number) => {
     console.log(`Task with ID ${taskId} checked/unchecked`);
   };
