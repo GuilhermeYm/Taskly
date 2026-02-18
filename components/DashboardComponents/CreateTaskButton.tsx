@@ -5,7 +5,13 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import TaskForm from "./TaskForm";
 
-export default function CreateTaskButton() {
+export default function CreateTaskButton({
+  text,
+  classNameProps,
+}: {
+  text?: string;
+  classNameProps?: string;
+}) {
   const [shouldIShowTheForm, setShouldIShowTheForm] = useState<true | false>(
     false,
   );
@@ -15,9 +21,10 @@ export default function CreateTaskButton() {
       <Button
         variant={"blue"}
         onClick={() => setShouldIShowTheForm(!shouldIShowTheForm)}
+        className={classNameProps ? `absolute ${classNameProps}` : undefined}
       >
         <Plus className="h-8 w-8" />
-        New Task
+        <span>{text ? text : "New Task"}</span>
       </Button>
       {shouldIShowTheForm && (
         <TaskForm onClose={() => setShouldIShowTheForm(false)} />

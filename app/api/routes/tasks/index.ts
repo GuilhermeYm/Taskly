@@ -6,7 +6,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks" })
   .get("/", async () => TaskService.getTasks(), {
     response: { 200: TaskModel.list },
   })
-  .post("/createTask", async ({ body }) => TaskService.createTask(body), {
-    body: TaskModel.createInput,
+  .post("/createUser", async ({ body }) => TaskService.createTask(body), {
     response: { 200: TaskModel.response },
+    body: TaskModel.createInput,
   });

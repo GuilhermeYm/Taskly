@@ -7,12 +7,34 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  PENDANT
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Category {
+  INBOX
+  TODAY
+  UPCOMING
+}
+
 model Task {
-  id         String   @id @default(uuid())
-  title      String   @unique
+  id         String     @id @default(uuid())
+  title      String     @unique
   content    String
-  tags       String[] @default([])
-  project    String   @default("Não pertence a nenhum projeto")
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  tags       String[]   @default([])
+  project    String     @default("Does not belong to any project")
+  created_at DateTime   @default(now())
+  due_date   DateTime?
+  updated_at DateTime   @updatedAt
+  priority   Priority   @default(MEDIUM)
+  status     TaskStatus @default(PENDANT)
+  category   Category   @default(INBOX)
 }

@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
-import { Bell, Plus } from "lucide-react";
+import { Bell, SearchIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -11,17 +10,27 @@ import {
 } from "@/components/ui/collapsible";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import CreateTaskButton from "./CreateTaskButton";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../ui/input-group";
 
 export default function Header() {
   return (
     <header className="h-[5%] w-full border-b border-border flex items-center justify-between px-4 py-2 relative">
       <div className="basis-96 flex items-center gap-2">
-        <SidebarTrigger className="h-6 w-6 cursor-pointer" />
+        <SidebarTrigger className="h-6 w-6 cursor-pointer" title="Ctrl + B"/>
         <Separator orientation="vertical" className="self-stretch" />
-        <Input
-          className="placeholder:text-sm "
-          placeholder="Search tasks, projects, or labels"
-        />
+        <InputGroup>
+          <InputGroupInput
+            className="placeholder:text-sm "
+            placeholder="Search tasks, projects, or labels"
+          />
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+        </InputGroup>
       </div>
       <nav className="text-sm flex items-center justify-end gap-4">
         <Button asChild variant={"ghost"}>

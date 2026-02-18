@@ -1,5 +1,5 @@
 import { status } from "elysia";
-import type { Response, TaskResponse, CreateTaskInput } from "./model";
+import type { CreateTaskInput, Response, TaskResponse } from "./model";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
@@ -11,26 +11,35 @@ const prisma = new PrismaClient({
 
 export abstract class TaskService {
   static async getTasks(): Promise<TaskResponse[]> {
-    console.log("Fetching tasks from database...");
     const tasks = await prisma.task.findMany({});
-    console.log(tasks);
     if (!tasks) throw status(404, "No tasks found");
-    return tasks;
+    return tasks.map((task) => ({
+      ...task,
+      due_date: task.due_date ?? undefined,
+    })) as TaskResponse[];
   }
 
   static async createTask(taskData: CreateTaskInput): Promise<Response> {
-    const response = await prisma.task.create({
+    const tryToCreateTask = await prisma.task.create({
       data: {
+        id: taskData.id,
         title: taskData.title,
         content: taskData.content,
-        tags: taskData.tags || [],
-        project: taskData.project || "Não pertence a nenhum projeto",
+        tags: taskData.tags,
+        project: taskData.project,
+        created_at: taskData.created_at,
+        updated_at: taskData.updated_at,
+        due_date: taskData.due_date ?? null,
+        priority: taskData.priority,
+        status: taskData.status,
+        category: taskData.category,
       },
     });
-    if (!response) throw status(500, "Failed to create task");
+
+    console.log(tryToCreateTask);
     return {
       message: "Task created successfully",
-      taskCreated: response,
+      taskCreated: taskData,
     };
   }
 }
